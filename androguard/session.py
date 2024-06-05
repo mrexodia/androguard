@@ -44,7 +44,7 @@ class Session:
 
 
     """
-    def __init__(self, export_ipython=False):
+    def __init__(self, export_ipython=False, db_url = 'sqlite:///androguard.db'):
         """
         Create a new Session object
 
@@ -54,7 +54,7 @@ class Session:
         self._setup_objects()
         self.export_ipython = export_ipython
 
-        self.db = dataset.connect('sqlite:///androguard.db')
+        self.db = dataset.connect(db_url)
         logger.info("Opening database {}".format(self.db))
         self.table_information = self.db["information"]
         self.table_session = self.db["session"]
@@ -126,7 +126,7 @@ class Session:
 
     def insert_system_event(self, call, callee, information, params):
         self.table_system.insert(dict(session_id=str(self.session_id), call=call, callee=callee, information=information, params=params))
-        
+
     def addAPK(self, filename, data):
         """
         Add an APK file to the Session and run analysis on it.
